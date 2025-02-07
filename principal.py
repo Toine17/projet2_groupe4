@@ -46,6 +46,8 @@ def id_du_film(titre) : # renvoie le tconst d'un film à partir du titreVF
 #----------------------------------------
 
 def df_tri(film) :   # renvoie le dataframe utile pour les voisins en fonction du tconst
+  # Création et ajustement du modèle NearestNeighbors
+  
   langue = df_titres.loc[df_titres['tconst'] == film]['original_language'].iloc[0]
   df_langue = df_titres.loc[df_titres['original_language'] == langue][['tconst','anneeSortie','noteMoyenne', 'nbVotes']]      # récupération des colonnes intéressantes pour les films dans la langue
   
@@ -89,6 +91,9 @@ def df_tri(film) :   # renvoie le dataframe utile pour les voisins en fonction d
 #----------------------------------------
 
 def suggestions(df, film) :
+  array = df.iloc[:,1:].to_numpy()           # transformation des valeurs utiles en array (j'aurais aussi pu utiliser un .values)
+  nn = NearestNeighbors(n_neighbors=11, metric='euclidean')         # pour récupérer 10 films voisins
+  nn.fit(array)
   mon_film = df.loc[df['tconst']==film].iloc[:,1:].to_numpy()        
   distances, indices = nn.kneighbors(mon_film)     # on récupère les distances et les indices des pokémons les plus proches
 
@@ -103,42 +108,72 @@ def suggestions(df, film) :
   
   return liste_finale
 
+#----------------------------------------
+
+def filmograhie (nom_acteur) :
+    IDactor = df_names.loc[df_names['Nom']==nom_acteur]['personneID'].iloc[0]
+    if df_names.loc[df_names['Nom']==nom_acteur]['commeActeur'].iloc[0] == 'pas_de_film' :
+       liste_finale = [] 
+    else :
+      df_actor_choisi = df_acteurs.loc[df_acteurs['nconst'] == IDactor]['tconst']
+      df = pd.merge(df_titres,df_actor_choisi, how = 'inner', on = 'tconst')
+      df = df.sort_values('notePonderee', ascending = False).head(10)
+      liste_finale = df['titreVF'].tolist()
+      
+    if len(liste_finale)<10 :
+      if df_names.loc[df_names['Nom']==nom_acteur]['commeRealisateur'].iloc[0] == 'pas_de_film' :
+        liste_real = []
+      else :
+         df_real_choisi = df_realisateurs.loc[df_realisateurs['nconst'] == IDactor]['tconst']
+         df = pd.merge(df_titres,df_real_choisi, how = 'inner', on = 'tconst')
+         df = df.sort_values('notePonderee', ascending = False).head(10-len(liste_finale))
+         liste_real = df['titreVF'].tolist()
+         liste_finale = liste_finale + liste_real
+    return liste_finale
+
 ######################## TEST de L'AFFICHAGE
 
 with st.sidebar:
-        selection = option_menu(menu_title= "Choisissez par quelle façon vous vulez rechercher des films",
-            options = ["Films similaires", "Acteurs", "Genres"])
-
-
-
-if selection == "Films similaires" :
-    titre_test = st.text_input("Entre un titre de film : ")
+        titre_test = st.text_input("Entrez votre critère de suggestion : ")
+        requete_trouvee = 0
+if titre_test is not None :
+  if titre_test in df_titres['titreVF'].tolist() : # On cherche si c'est un titre de film
+    requete_trouvee = 1
     film = id_du_film(titre_test)
+    df = df_tri(film)
+    films_finaux = suggestions(df, film)
 
-    if film is not None :
-        df = df_tri(film)
-        # Création et ajustement du modèle NearestNeighbors
-        array = df.iloc[:,1:].to_numpy()           # transformation des valeurs utiles en array (j'aurais aussi pu utiliser un .values)
-        nn = NearestNeighbors(n_neighbors=11, metric='euclidean')         # pour récupérer 10 films voisins
-        nn.fit(array)
+  elif titre_test in df_names['Nom'].tolist(): # On cherche si c'est un acteur ou un réalisateur
+    requete_trouvee = 1
+    films_finaux = filmograhie(titre_test)      
 
-        films_finaux = suggestions(df, film)
-        col1, col2  = st.columns(2)
-        with col1: 
-            st.write(films_finaux[0])
-            st.write(films_finaux[1])
+
+
+  if requete_trouvee == 1 :
+    col1, col2  = st.columns(2)
+    if len(films_finaux) == 0 :
+      st.write("Nous n'avons pas trouvé de film")
+    with col1: 
+        st.write(films_finaux[0])
+        if len(films_finaux) >= 3 :
             st.write(films_finaux[2])
-            st.write(films_finaux[3])
+        if len(films_finaux) >= 5 :    
             st.write(films_finaux[4])
-        with col2: 
-            st.write(films_finaux[5])
+        if len(films_finaux) >= 7 : 
             st.write(films_finaux[6])
-            st.write(films_finaux[7])
+        if len(films_finaux) >= 9 : 
             st.write(films_finaux[8])
+    with col2: 
+        st.write(films_finaux[1])
+        if len(films_finaux) >= 4 : 
+            st.write(films_finaux[3])
+        if len(films_finaux) >= 6 : 
+            st.write(films_finaux[5])
+        if len(films_finaux) >= 8 : 
+            st.write(films_finaux[7])
+        if len(films_finaux) >= 10 : 
             st.write(films_finaux[9])
-        
-if selection == "Acteurs" :
-    st.title("En construction...")
-   
-if selection == "Genres" :
-    st.title("En construction...")
+  else :
+    st.write("Nous n'avons pas trouvé de résultat à votre recherche")
+     
+
