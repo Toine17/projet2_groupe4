@@ -2,7 +2,6 @@
 
 import streamlit as st
 import pandas as pd
-from streamlit_option_menu import option_menu
 import bcrypt
 import requests
 from requests.auth import HTTPBasicAuth
