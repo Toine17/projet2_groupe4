@@ -5,7 +5,6 @@ import pandas as pd
 import requests
 from requests.auth import HTTPBasicAuth
 import base64
-import page_1
 
 #ML
 from sklearn.preprocessing import StandardScaler  #avec écart-type
