@@ -30,17 +30,11 @@ df_genres = pd.read_csv('df_genres.csv')
 
 liste_genres = ['Action', 'Aventure', 'Animation', 'Biographie',
        'Comedie', 'Crime', 'Documentaire', 'Drame', 'Famille', 'Fantasy',
-       'Histoire', 'Horreur', 'Musique', 'Musical', 'Mystère', 'News', 'Romance',
+       'Histoire', 'Horreur', 'Musique', 'Musical', 'Mystere', 'News', 'Romance',
        'Sci-Fi', 'Sport', 'Thriller', 'Guerre', 'Western']
 
-df_titres_sorted = df_titres.sort_values('titreVF')
-liste_choix = df_titres_sorted['titreVF'].tolist()
-df_names_sorted = df_names.sort_values('Nom')
-liste_choix = liste_choix + df_names_sorted['Nom'].tolist()
-liste_choix = liste_choix + liste_genres
-liste_choix = sorted(liste_choix, key=str)
 
-######################## pR2PARATION DES DONNEES EN LISTE ####################################
+######################## PREPARATION DES DONNEES EN LISTE ####################################
 
 col_a_modif = ['liste_realisateurs', 'liste_acteurs']
 for col in col_a_modif :
@@ -59,31 +53,34 @@ def id_du_film(titre) : # renvoie le tconst d'un film à partir du titreVF
   elif  titre in df_titres['TitreOriginal'].tolist() :  # Vérification que le film est bien connu                                  
     return df_titres.loc[df_titres['TitreOriginal'] == titre]['tconst'].iloc[0]   
   else : 
-     st.write("Ce film n'est pas connu, vérifiez l'orthographe") #Si le film n'est pas trouvé dans notre BDD
+     st.write("Ce film n'est pas connu, verifiez l'orthographe") #Si le film n'est pas trouvé dans notre BDD
 
-# ON TRI LE DATAFRAME POUR GARDER QUE LES FILMS POUVANT CORRESPONDRE ----------------------------------------
+# ON TRI LE DATAFRAME POUR NE GARDER QUE LES FILMS POUVANT CORRESPONDRE ----------------------------------------
 def df_tri(film) :   # renvoie le dataframe utile pour les voisins en fonction du tconst
   
   # Création et ajustement du modèle NearestNeighbors
   df_act = df_titres # Création d'un dataframe de travail pour cette fonction
   langue = df_act.loc[df_act['tconst'] == film]['original_language'].iloc[0] # On récupère la langue du film
   
+  df_act = df_act.loc[df_act['original_language'] == langue][['tconst','liste_acteurs','liste_realisateurs','anneeSortie','noteMoyenne', 'nbVotes']] # récupération des colonnes intéressantes pour les films dans la langue
+
+  # création de deux colonnes : 'act_commun' et 'real_commun' pour compter le nombre d'acteurs / réalisateur communs entre le film et les autres films du df
   df_act['act_commun'] = 0 # Initialisation d'une liste pour compter les acteurs en commun
   df_act['real_commun'] = 0 # Initialisation d'une liste pour compter les réalisateurs en commun
   for act in df_act.loc[df_act['tconst']==film]['liste_acteurs'].iloc[0] : # On parcourt la liste des acteurs du film choisi
     for film_act in df_names.loc[df_names['personneID']== act]['commeActeur'].iloc[0] : # On parcourt la liste des films des acteurs
-      df_act.loc[df_act['tconst'] == film_act, 'act_commun'] += 1 # Incrémentation du nombre d'acteur en commun
+      df_act.loc[df_act['tconst'] == film_act, 'act_commun'] += 1 # Incrémentation du nombre d'acteurs en commun
   
   for real in df_act.loc[df_act['tconst']==film]['liste_realisateurs'].iloc[0] : 
     for film_real in df_names.loc[df_names['personneID']== real]['commeRealisateur'].iloc[0] :
       df_act.loc[df_act['tconst'] == film_real, 'real_commun'] += 1
   
-  df_langue = df_act.loc[df_act['original_language'] == langue][['tconst','anneeSortie','noteMoyenne', 'nbVotes', 'act_commun', 'real_commun']] # récupération des colonnes intéressantes pour les films dans la langue
+  # on supprime les listes acteurs et réalisateurs qui ne sont plus nécessaires pour la suite :
+  df_act = df_act[['tconst','anneeSortie','noteMoyenne', 'nbVotes', 'act_commun', 'real_commun']]
   
-  
-   #Normalisation des données :
+  #Normalisation des données :
   scaler = StandardScaler()           # J'utilise StandardScaler pour qu'il soit moins sensible aux valeurs extrêmes
-  scaled = scaler.fit_transform(df_langue[['anneeSortie','noteMoyenne', 'nbVotes','act_commun', 'real_commun']])
+  scaled = scaler.fit_transform(df_act[['anneeSortie','noteMoyenne', 'nbVotes','act_commun', 'real_commun']])
   df_scaled = pd.DataFrame(scaled, columns=['anneeSortie','noteMoyenne', 'nbVotes','act_commun', 'real_commun'])
   df_scaled['act_commun'] = df_scaled['act_commun']/4 # On ajuste le poids des différentes colonnes
   df_scaled['real_commun'] = df_scaled['real_commun']/5
@@ -91,40 +88,44 @@ def df_tri(film) :   # renvoie le dataframe utile pour les voisins en fonction d
   df_scaled['anneeSortie'] = df_scaled['anneeSortie']*3
   df_scaled['nbVotes'] = df_scaled['nbVotes']*3
 
-  df_langue = pd.concat([df_langue['tconst'].reset_index(drop=True), df_scaled], axis=1)
-  df = pd.merge(df_langue,            #création d'un df avec toutes les données pour le KNN
+  df_act = pd.concat([df_act['tconst'].reset_index(drop=True), df_scaled], axis=1)
+  df = pd.merge(df_act,            #création d'un df avec toutes les données pour le KNN
                df_genres,
                how = 'inner',
                on = 'tconst')
   df = df.drop(['Unnamed: 0'], axis = 1)  
+
   # tri sur les genres : suppression des films qui n'ont aucun genre en commun
-  #obtenir la liste des genres du film :
   
-  liste_genres = [genre for genre in ['Action', 'Aventure', 'Animation', 'Biographie','Comedie', 'Crime', 'Documentaire', 'Drame', 'Famille', 'Fantasy','Histoire', 'Horreur', 'Musique', 'Musical', 'Mystère', 'News', 'Romance','Sci-Fi', 'Sport', 'Thriller', 'Guerre', 'Western'] if df.loc[df['tconst']==film][genre].iloc[0] == 1]
+  #obtenir la liste des genres du film :
+  genres_film = [genre for genre in liste_genres if df.loc[df['tconst']==film][genre].iloc[0] == 1]
   
   #on supprime tous les films qui n'ont pas de genre en commun et de genre important
-  liste_genre_princ = ['Animation','Crime', 'Documentaire', 'Famille', 'Horreur', 'Guerre', 'Western', 'Sci-Fi']
-  if len(liste_genres) == 1 :
-    df = df.loc[~(df[liste_genres[0]] == 0)]
+  liste_genre_princ = ['Comedie','Animation','Crime', 'Documentaire', 'Famille', 'Horreur', 'Guerre', 'Western', 'Sci-Fi']
+  
+  if len(genres_film) == 1 :                    # si le film n'a qu'un genre, on gare uniquement les films qui contiennent ce genre
+    df = df.loc[~(df[genres_film[0]] == 0)]
     
-  elif len(liste_genres) == 2 :
-    df = df.loc[~((df[liste_genres[0]] == 0) & (df[liste_genres[1]] == 0))]
-    if liste_genres[0] in liste_genre_princ :
-         df = df.loc[~(df[liste_genres[0]] == 0)]
-    elif liste_genres[1] in liste_genre_princ :
-         df = df.loc[~(df[liste_genres[1]] == 0)]
+  elif len(genres_film) == 2 :
+    df = df.loc[~((df[genres_film[0]] == 0) & (df[genres_film[1]] == 0))]     # si le film a deux genres, on supprime tous les films qui n'ont aucun de ces deux genres
+    if genres_film[0] in liste_genre_princ :          # si le film a un genre parmis les genres principaux, on supprime tous les films n'ayant pas ce genre principal 
+         df = df.loc[~(df[genres_film[0]] == 0)]
+    elif genres_film[1] in liste_genre_princ :
+         df = df.loc[~(df[genres_film[1]] == 0)]
   else :
-    df = df.loc[~((df[liste_genres[0]] == 0) & (df[liste_genres[1]] == 0) & (df[liste_genres[2]] == 0))]
-    if liste_genres[0] in liste_genre_princ :
-         df = df.loc[~(df[liste_genres[0]] == 0)]
-    elif liste_genres[1] in liste_genre_princ :
+    df = df.loc[~((df[genres_film[0]] == 0) & (df[genres_film[1]] == 0) & (df[genres_film[2]] == 0))]   # si le film a 3 genres, on supprime tous les films qui n'ont aucun de ces 3 genres
+    if genres_film[0] in liste_genre_princ :         # si le film a un genre parmis les genres principaux, on supprime tous les films n'ayant pas ce genre principal 
+         df = df.loc[~(df[genres_film[0]] == 0)]
+    elif genres_film[1] in liste_genre_princ :
          df = df.loc[~(df[liste_genres[1]] == 0)]
-    elif liste_genres[2] in liste_genre_princ :
-         df = df.loc[~(df[liste_genres[2]] == 0)]
+    elif genres_film[2] in liste_genre_princ :
+         df = df.loc[~(df[genres_film[2]] == 0)]
   
   return df
   
 #----------------------------------------
+
+
 
 def suggestions(df, film) :
 
@@ -132,34 +133,33 @@ def suggestions(df, film) :
   nn = NearestNeighbors(n_neighbors=11, metric='euclidean')         # pour récupérer 10 films voisins
   nn.fit(array)
   mon_film = df.loc[df['tconst']==film].iloc[:,1:].to_numpy()        
-  distances, indices = nn.kneighbors(mon_film)     # on récupère les distances et les indices des pokémons les plus proches
+  distances, indices = nn.kneighbors(mon_film)     # on récupère les distances et les indices des films les plus proches
 
-  liste_distances = distances.tolist()     # transformation de l'array des distances en liste
   liste_indices = indices.tolist()         # transformation de l'array des indices en liste
 
   del liste_indices[0][0]                 # supprime le premier de la liste (qui est le film cible)
   liste_indices = liste_indices[0]        # transforme la liste de liste en liste simple
   liste_finale = []
     
-  liste_finale = [df_titres.loc[df_titres['tconst']==df.iloc[i]['tconst']][['titreVF']].iloc[0].iloc[0] for i in liste_indices]
+  liste_finale = [df_titres.loc[df_titres['tconst']==df.iloc[i]['tconst']][['titreVF']].iloc[0].iloc[0] for i in liste_indices]  # liste des titres de films des 10 plus proches voisins
   
-  liste_imdb = [df_titres.loc[df_titres['tconst']==df.iloc[i]['tconst']][['id']].iloc[0].iloc[0] for i in liste_indices]
+  liste_tmdb = [df_titres.loc[df_titres['tconst']==df.iloc[i]['tconst']][['id']].iloc[0].iloc[0] for i in liste_indices]     # liste des id TMDB des 10 plus proches voisins (pour affichage des affiches de films)
 
-  return liste_finale, liste_imdb
+  return liste_finale, liste_tmdb
 
 #----------------------------------------
 
-def filmograhie (nom_acteur) :
+def filmograhie (nom_acteur) :              # renvoie la liste des 10 films ayant la meilleure note pondérée de l'acteur ou du réalisateur.
     IDactor = df_names.loc[df_names['Nom']==nom_acteur]['personneID'].iloc[0]
     if df_names.loc[df_names['Nom']==nom_acteur]['commeActeur'].iloc[0] == 'pas_de_film' :
        liste_finale = []
-       liste_imdb = []
+       liste_tmdb = []
     else :
       df_actor_choisi = df_acteurs.loc[df_acteurs['nconst'] == IDactor]['tconst']
       df = pd.merge(df_titres,df_actor_choisi, how = 'inner', on = 'tconst')
       df = df.sort_values('notePonderee', ascending = False).head(10)
       liste_finale = df['titreVF'].tolist()
-      liste_imdb = df['id'].tolist()
+      liste_tmdb = df['id'].tolist()
     if len(liste_finale)<10 :
       if df_names.loc[df_names['Nom']==nom_acteur]['commeRealisateur'].iloc[0] == 'pas_de_film' :
         liste_real = []
@@ -168,10 +168,10 @@ def filmograhie (nom_acteur) :
          df = pd.merge(df_titres,df_real_choisi, how = 'inner', on = 'tconst')
          df = df.sort_values('notePonderee', ascending = False).head(10-len(liste_finale))
          liste_real = df['titreVF'].tolist()
-         liste_imdb_real  = df['id'].tolist()
+         liste_tmdb_real  = df['id'].tolist()
          liste_finale = liste_finale + liste_real
-         liste_imdb = liste_imdb + liste_imdb_real
-    return liste_finale, liste_imdb
+         liste_tmdb = liste_tmdb + liste_tmdb_real
+    return liste_finale, liste_tmdb
 
 #----------------------------------------
 
@@ -180,8 +180,8 @@ def suggestion_genre (genre) :
     df = pd.merge(df_titres, df, how = 'inner', on = 'tconst')
     df = df.sort_values('notePonderee', ascending = False).head(10)
     liste_finale = df['titreVF'].tolist()
-    liste_imdb = df['id'].tolist()
-    return liste_finale, liste_imdb
+    liste_tmdb = df['id'].tolist()
+    return liste_finale, liste_tmdb
 
 #----------------------------------------
 
@@ -198,11 +198,29 @@ def searchMovies(query):
 
 ######################## TEST de L'AFFICHAGE
 
+df_titres_sorted = df_titres.sort_values('titreVF')
+df_names_sorted = df_names.sort_values('Nom')
 
 
 with st.sidebar:
-        titre_test = st.selectbox("Entrez votre critère de suggestion : ", liste_choix, index = None )
+        type_choix = st.selectbox("Quel type de recherche voulez-vous faire ?",['par film','par acteur','par réalisateur'])
+        if type_choix == 'par film' :
+          liste_choix = df_titres_sorted['titreVF'].tolist()
+          phrase = "Entrez le nom d'un film que vous avez aimé : "
+        elif type_choix == 'par acteur' :
+          liste_choix = df_names.loc[df_names['commeActeur']!='pas de film'].sort_values('Nom').tolist()
+          phrase = "Entrez le nom de l'acteur : "
+        else : 
+          liste_choix = df_names.loc[df_names['commeRealisateur']!='pas de film'].sort_values('Nom').tolist()
+          phrase = "Entrez le nom du réalisateur : "
+  
+        liste_choix = sorted(liste_choix, key=str)
+        titre_test = st.selectbox(phrase, liste_choix, index = None )
+
         requete_trouvee = 0
+        
+        #genre_choisi = st.radio("Choix du genre du film",liste_genres)
+
 if titre_test is not None :
   if titre_test in df_titres['titreVF'].tolist() : # On cherche si c'est un titre de film
     requete_trouvee = 1
@@ -219,7 +237,7 @@ if titre_test is not None :
     requete_trouvee = 1
     films_finaux, imdb = filmograhie(titre_test) 
 
-  if requete_trouvee == 1 : # Si on a trouvé un résultat à cette requête on les affiches
+  if requete_trouvee == 1 : # Si on a trouvé un résultat à cette requête on les affiche
     col1, col2  = st.columns(2)
     if len(films_finaux) == 0 :
       st.write("Nous n'avons pas trouvé de film")
