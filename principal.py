@@ -39,7 +39,7 @@ col_a_modif = ['liste_realisateurs', 'liste_acteurs']
 for col in col_a_modif :
   df_titres[col]=df_titres[col].str.split(',')
 
-col_a_modif2 = ['commeActeur', 'commeRealisateur','films_plus_connus']
+col_a_modif2 = ['commeActeur', 'commeRealisateur']
 for col in col_a_modif2 :
   df_names[col]=df_names[col].str.split(',')
 
@@ -292,8 +292,9 @@ if titre_test is not None :
             st.write(films_finaux[8])
             st.image(searchMovies(imdb[8]), use_column_width=True) # use_container_width une fois mis en ligne
     with col2: 
-        st.write(films_finaux[1])
-        st.image(searchMovies(imdb[1]), use_column_width=True)
+        if len(films_finaux) >= 2 :
+            st.write(films_finaux[1])
+            st.image(searchMovies(imdb[1]), use_column_width=True)
         if len(films_finaux) >= 6 : 
             st.write(films_finaux[5])
             st.image(searchMovies(imdb[5]), use_column_width=True)
@@ -301,8 +302,9 @@ if titre_test is not None :
             st.write(films_finaux[9])
             st.image(searchMovies(imdb[9]), use_column_width=True)
     with col3: 
-        st.write(films_finaux[2])
-        st.image(searchMovies(imdb[2]), use_column_width=True)
+        if len(films_finaux) >= 3 :
+            st.write(films_finaux[2])
+            st.image(searchMovies(imdb[2]), use_column_width=True)
         if len(films_finaux) >= 7 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(films_finaux[6])
             st.image(searchMovies(imdb[6]), use_column_width=True) # use_container_width une fois mis en ligne
@@ -310,42 +312,43 @@ if titre_test is not None :
             st.write(films_finaux[10])
             st.image(searchMovies(imdb[10]), use_column_width=True) # use_container_width une fois mis en ligne
     with col4: 
-        st.write(films_finaux[3])
-        st.image(searchMovies(imdb[3]), use_column_width=True)
+        if len(films_finaux) >= 4 :
+            st.write(films_finaux[3])
+            st.image(searchMovies(imdb[3]), use_column_width=True)
         if len(films_finaux) >= 8 : 
             st.write(films_finaux[7])
             st.image(searchMovies(imdb[7]), use_column_width=True)
         if len(films_finaux) >= 12 : 
             st.write(films_finaux[11])
             st.image(searchMovies(imdb[11]), use_column_width=True)
-  
-    if st.button('Afficher plus')  :
-      with col1: 
-        if len(films_finaux) >= 13 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
+    if len(films_finaux) > 12 :
+      if st.button('Afficher plus')  :
+        with col1: 
+          if len(films_finaux) >= 13 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(films_finaux[12])
             st.image(searchMovies(imdb[12]), use_column_width=True) # use_container_width une fois mis en ligne
-        if len(films_finaux) >= 17 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
+          if len(films_finaux) >= 17 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(films_finaux[16])
             st.image(searchMovies(imdb[16]), use_column_width=True) # use_container_width une fois mis en ligne
-      with col2: 
-        if len(films_finaux) >= 14 : 
+        with col2: 
+          if len(films_finaux) >= 14 : 
             st.write(films_finaux[13])
             st.image(searchMovies(imdb[13]), use_column_width=True)
-        if len(films_finaux) >= 18 : 
+          if len(films_finaux) >= 18 : 
             st.write(films_finaux[17])
             st.image(searchMovies(imdb[17]), use_column_width=True)
-      with col3: 
-        if len(films_finaux) >= 15 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
+        with col3: 
+          if len(films_finaux) >= 15 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(films_finaux[14])
             st.image(searchMovies(imdb[14]), use_column_width=True) # use_container_width une fois mis en ligne
-        if len(films_finaux) >= 19 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
+          if len(films_finaux) >= 19 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(films_finaux[18])
             st.image(searchMovies(imdb[18]), use_column_width=True) # use_container_width une fois mis en ligne
-      with col4: 
-        if len(films_finaux) >= 16 : 
+        with col4: 
+          if len(films_finaux) >= 16 : 
             st.write(films_finaux[15])
             st.image(searchMovies(imdb[15]), use_column_width=True)
-        if len(films_finaux) >= 20 : 
+          if len(films_finaux) >= 20 : 
             st.write(films_finaux[19])
             st.image(searchMovies(imdb[19]), use_column_width=True)
    
