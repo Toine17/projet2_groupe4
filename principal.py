@@ -468,95 +468,95 @@ if titre_test is not None :
       with col1: 
         if len(films_finaux) >= 0 : # Les if sont pour éviter les messages d'erreur si on n'a pas de films
           st.write(df_titres.loc[df_titres['tconst'] == films_finaux[0]]['titreVF'].iloc[0])
-          st.image(searchMovies(imdb[0]), use_column_width=True)
+          st.image(searchMovies(imdb[0]), use_container_width=True)
         if len(films_finaux) >= 7 : # Les if sont pour éviter les messages d'erreur si on n'a pas 5 films
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[6]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[6]), use_column_width=True) # use_container_width une fois mis en ligne
+            st.image(searchMovies(imdb[6]), use_container_width=True) # use_container_width une fois mis en ligne
         
       with col2: 
         if len(films_finaux) >= 2 :
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[1]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[1]), use_column_width=True)
+            st.image(searchMovies(imdb[1]), use_container_width=True)
         if len(films_finaux) >= 8 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[7]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[7]), use_column_width=True)
+            st.image(searchMovies(imdb[7]), use_container_width=True)
         
       with col3: 
         if len(films_finaux) >= 3 :
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[2]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[2]), use_column_width=True)
+            st.image(searchMovies(imdb[2]), use_container_width=True)
         if len(films_finaux) >= 9 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[8]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[8]), use_column_width=True) # use_container_width une fois mis en ligne
+            st.image(searchMovies(imdb[8]), use_container_width=True) # use_container_width une fois mis en ligne
         
       with col4: 
         if len(films_finaux) >= 4 :
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[3]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[3]), use_column_width=True)
+            st.image(searchMovies(imdb[3]), use_container_width=True)
         if len(films_finaux) >= 10 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[9]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[9]), use_column_width=True)
+            st.image(searchMovies(imdb[9]), use_container_width=True)
         
       with col5: 
         if len(films_finaux) >= 5 :
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[4]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[4]), use_column_width=True)
+            st.image(searchMovies(imdb[4]), use_container_width=True)
         if len(films_finaux) >= 11 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[10]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[10]), use_column_width=True)
+            st.image(searchMovies(imdb[10]), use_container_width=True)
             
       with col6: 
         if len(films_finaux) >= 6 :
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[5]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[5]), use_column_width=True)
+            st.image(searchMovies(imdb[5]), use_container_width=True)
         if len(films_finaux) >= 12 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[11]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[11]), use_column_width=True)
+            st.image(searchMovies(imdb[11]), use_container_width=True)
             
     if len(films_finaux) > 12 :
       if st.button('Afficher plus') :
         with col1: 
           if len(films_finaux) >= 13 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[12]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[12]), use_column_width=True) # use_container_width une fois mis en ligne
+            st.image(searchMovies(imdb[12]), use_container_width=True) # use_container_width une fois mis en ligne
           if len(films_finaux) >= 19 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[18]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[18]), use_column_width=True) # use_container_width une fois mis en ligne
+            st.image(searchMovies(imdb[18]), use_container_width=True) # use_container_width une fois mis en ligne
         with col2: 
           if len(films_finaux) >= 14 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[13]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[13]), use_column_width=True)
+            st.image(searchMovies(imdb[13]), use_container_width=True)
           if len(films_finaux) >= 20 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[19]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[19]), use_column_width=True)
+            st.image(searchMovies(imdb[19]), uuse_container_width=True)
         with col3: 
           if len(films_finaux) >= 15 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[14]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[14]), use_column_width=True) # use_container_width une fois mis en ligne
+            st.image(searchMovies(imdb[14]), use_container_width=True) # use_container_width une fois mis en ligne
           if len(films_finaux) >= 21 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[20]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[20]), use_column_width=True) # use_container_width une fois mis en ligne
+            st.image(searchMovies(imdb[20]), use_container_width=True) # use_container_width une fois mis en ligne
         with col4: 
           if len(films_finaux) >= 16 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[15]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[15]), use_column_width=True)
+            st.image(searchMovies(imdb[15]), use_container_width=True)
           if len(films_finaux) >= 22 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[21]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[21]), use_column_width=True)
+            st.image(searchMovies(imdb[21]), use_container_width=True)
         with col5: 
           if len(films_finaux) >= 17 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[16]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[16]), use_column_width=True)
+            st.image(searchMovies(imdb[16]), use_container_width=True)
           if len(films_finaux) >= 23 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[22]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[22]), use_column_width=True)
+            st.image(searchMovies(imdb[22]), use_container_width=True)
         with col6: 
           if len(films_finaux) >= 18 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[17]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[17]), use_column_width=True)
+            st.image(searchMovies(imdb[17]), use_container_width=True)
           if len(films_finaux) >= 24 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[23]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[23]), use_column_width=True)
+            st.image(searchMovies(imdb[23]), use_container_width=True)
           
     if requete2 == 1 :
       if type_choix == 'par acteur':
@@ -577,35 +577,35 @@ if titre_test is not None :
         with col1: 
           if len(filmo) >= 0 : # Les if sont pour éviter les messages d'erreur si on n'a pas de films
             st.write(df_titres.loc[df_titres['tconst'] == filmo[0]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[0]), use_column_width=True)
+            st.image(searchMovies(affiche[0]), use_container_width=True)
         with col2: 
           if len(filmo) >= 2 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[1]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[1]), use_column_width=True)
+            st.image(searchMovies(affiche[1]), use_container_width=True)
         with col3: 
           if len(filmo) >= 3 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[2]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[2]), use_column_width=True)               
+            st.image(searchMovies(affiche[2]), use_container_width=True)               
         with col4: 
           if len(filmo) >= 4 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[3]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[3]), use_column_width=True)               
+            st.image(searchMovies(affiche[3]), use_container_width=True)               
         with col5: 
           if len(filmo) >= 5 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[4]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[4]), use_column_width=True)                    
+            st.image(searchMovies(affiche[4]), use_container_width=True)                    
         with col6: 
           if len(filmo) >= 6 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[5]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[5]), use_column_width=True)       
+            st.image(searchMovies(affiche[5]), use_container_width=True)       
         with col7: 
           if len(filmo) >= 7 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[6]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[6]), use_column_width=True)   
+            st.image(searchMovies(affiche[6]), use_container_width=True)   
         with col8: 
           if len(filmo) >= 8 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[7]), use_column_width=True)
+            st.image(searchMovies(affiche[7]), use_container_width=True)
       
             # deuxième acteur voisin :
         st.write(f"filmographie de {liste_noms[1]} :")
@@ -620,35 +620,35 @@ if titre_test is not None :
         with col1: 
           if len(filmo) >= 0 : # Les if sont pour éviter les messages d'erreur si on n'a pas de films
             st.write(df_titres.loc[df_titres['tconst'] == filmo[0]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[0]), use_column_width=True)
+            st.image(searchMovies(affiche[0]), use_container_width=True)
         with col2: 
           if len(filmo) >= 2 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[1]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[1]), use_column_width=True)
+            st.image(searchMovies(affiche[1]), use_container_width=True)
         with col3: 
           if len(filmo) >= 3 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[2]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[2]), use_column_width=True)               
+            st.image(searchMovies(affiche[2]), use_container_width=True)               
         with col4: 
           if len(filmo) >= 4 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[3]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[3]), use_column_width=True)               
+            st.image(searchMovies(affiche[3]), use_container_width=True)               
         with col5: 
           if len(filmo) >= 5 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[4]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[4]), use_column_width=True)                    
+            st.image(searchMovies(affiche[4]), use_container_width=True)                    
         with col6: 
           if len(filmo) >= 6 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[5]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[5]), use_column_width=True)       
+            st.image(searchMovies(affiche[5]), use_container_width=True)       
         with col7: 
           if len(filmo) >= 7 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[6]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[6]), use_column_width=True)   
+            st.image(searchMovies(affiche[6]), use_container_width=True)   
         with col8: 
           if len(filmo) >= 8 :
             st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
-            st.image(searchMovies(affiche[7]), use_column_width=True)
+            st.image(searchMovies(affiche[7]), use_container_width=True)
 
       if st.button('Autres choix')  :
           # troisième acteur voisin :
@@ -664,35 +664,35 @@ if titre_test is not None :
           with col1: 
             if len(filmo) >= 0 : # Les if sont pour éviter les messages d'erreur si on n'a pas de films
               st.write(df_titres.loc[df_titres['tconst'] == filmo[0]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[0]), use_column_width=True)
+              st.image(searchMovies(affiche[0]), use_container_width=True)
           with col2: 
             if len(filmo) >= 2 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[1]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[1]), use_column_width=True)
+              st.image(searchMovies(affiche[1]), use_container_width=True)
           with col3: 
             if len(filmo) >= 3 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[2]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[2]), use_column_width=True)               
+              st.image(searchMovies(affiche[2]), use_container_width=True)               
           with col4: 
             if len(filmo) >= 4 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[3]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[3]), use_column_width=True)               
+              st.image(searchMovies(affiche[3]), use_container_width=True)               
           with col5: 
             if len(filmo) >= 5 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[4]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[4]), use_column_width=True)                    
+              st.image(searchMovies(affiche[4]), use_container_width=True)                    
           with col6: 
             if len(filmo) >= 6 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[5]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[5]), use_column_width=True)       
+              st.image(searchMovies(affiche[5]), use_container_width=True)       
           with col7: 
             if len(filmo) >= 7 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[6]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[6]), use_column_width=True)   
+              st.image(searchMovies(affiche[6]), use_container_width=True)   
           with col8: 
             if len(filmo) >= 8 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[7]), use_column_width=True)
+              st.image(searchMovies(affiche[7]), use_container_width=True)
       
             # quatrième acteur voisin :
           st.write(f"filmographie de {liste_noms[3]} :")
@@ -707,35 +707,35 @@ if titre_test is not None :
           with col1: 
             if len(filmo) >= 0 : # Les if sont pour éviter les messages d'erreur si on n'a pas de films
               st.write(df_titres.loc[df_titres['tconst'] == filmo[0]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[0]), use_column_width=True)
+              st.image(searchMovies(affiche[0]), use_container_width=True)
           with col2: 
             if len(filmo) >= 2 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[1]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[1]), use_column_width=True)
+              st.image(searchMovies(affiche[1]), use_container_width=True)
           with col3: 
             if len(filmo) >= 3 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[2]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[2]), use_column_width=True)               
+              st.image(searchMovies(affiche[2]), use_container_width=True)               
           with col4: 
             if len(filmo) >= 4 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[3]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[3]), use_column_width=True)               
+              st.image(searchMovies(affiche[3]), use_container_width=True)               
           with col5: 
             if len(filmo) >= 5 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[4]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[4]), use_column_width=True)                    
+              st.image(searchMovies(affiche[4]), use_container_width=True)                    
           with col6: 
             if len(filmo) >= 6 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[5]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[5]), use_column_width=True)       
+              st.image(searchMovies(affiche[5]), use_container_width=True)       
           with col7: 
             if len(filmo) >= 7 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[6]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[6]), use_column_width=True)   
+              st.image(searchMovies(affiche[6]), use_container_width=True)   
           with col8: 
             if len(filmo) >= 8 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
-              st.image(searchMovies(affiche[7]), use_column_width=True) 
+              st.image(searchMovies(affiche[7]), use_container_width=True) 
 
 
 
