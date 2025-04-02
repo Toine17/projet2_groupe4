@@ -557,7 +557,9 @@ if titre_test is not None :
           if len(films_finaux) >= 24 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[23]]['titreVF'].iloc[0])
             st.image(searchMovies(imdb[23]), use_container_width=True)
-          
+        if st.button('Afficher plus') :
+           st.write("Il n'y a pas d'autres film")
+
     if requete2 == 1 :
       if type_choix == 'par acteur':
         st.header("Autres acteurs qui pourraient vous plaire :")
@@ -693,7 +695,9 @@ if titre_test is not None :
             if len(filmo) >= 8 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
               st.image(searchMovies(affiche[7]), use_container_width=True)
-      
+          if st.button('Autres choix') :
+           st.write("Il n'y a pas d'autres suggestion")
+
             # quatrième acteur voisin :
           st.write(f"filmographie de {liste_noms[3]} :")
         if type_choix == 'par acteur':
@@ -736,13 +740,16 @@ if titre_test is not None :
             if len(filmo) >= 8 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
               st.image(searchMovies(affiche[7]), use_container_width=True) 
-
+          if st.button('Autres choix') :
+           st.write("Il n'y a pas d'autres suggestion")
 
 
 
   else : # On a rien trouvé qui correspond à la requête
     st.write("Nous n'avons pas trouvé de résultat à votre recherche")
-
+else :
+   st.title("Bienvenue sur une application de suggestion de film.")
+   st.write("Sur la gauche de l'écran, vous trouverez un volet où vous pouvez entrer vos préférences en matière de films, d'acteurs, de réalisateurs ou de genres.")
   
      
 
