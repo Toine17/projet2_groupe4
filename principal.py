@@ -425,7 +425,7 @@ if titre_test is not None :
     
     col1, col2, col3, col4  = st.columns([2,1,2,2])
     with col2 :   
-       st.image(searchMovies(df_titres.loc[df_titres['tconst']==film]['id'].iloc[0]), use_column_width=True)  # affiche du film
+       st.image(searchMovies(df_titres.loc[df_titres['tconst']==film]['id'].iloc[0]), use_container_width=True)  # affiche du film
     with col3 :
        st.header(df_titres.loc[df_titres['tconst']==film]['titreVF'].iloc[0])
        st.write("année de sortie : ",df_titres.loc[df_titres['tconst']==film]['anneeSortie'].iloc[0])   # année sortie
@@ -528,7 +528,7 @@ if titre_test is not None :
             st.image(searchMovies(imdb[13]), use_container_width=True)
           if len(films_finaux) >= 20 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[19]]['titreVF'].iloc[0])
-            st.image(searchMovies(imdb[19]), uuse_container_width=True)
+            st.image(searchMovies(imdb[19]), use_container_width=True)
         with col3: 
           if len(films_finaux) >= 15 : # Les if sont pour éviter les messages d'erreur si on n'a pas 10 films
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[14]]['titreVF'].iloc[0])
