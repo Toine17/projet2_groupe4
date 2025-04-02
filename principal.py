@@ -557,8 +557,7 @@ if titre_test is not None :
           if len(films_finaux) >= 24 : 
             st.write(df_titres.loc[df_titres['tconst'] == films_finaux[23]]['titreVF'].iloc[0])
             st.image(searchMovies(imdb[23]), use_container_width=True)
-        if st.button('Afficher plus') :
-           st.write("Il n'y a pas d'autres film")
+        
 
     if requete2 == 1 :
       if type_choix == 'par acteur':
@@ -740,8 +739,7 @@ if titre_test is not None :
             if len(filmo) >= 8 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
               st.image(searchMovies(affiche[7]), use_container_width=True) 
-          if st.button('Autres choix') :
-           st.write("Il n'y a pas d'autres suggestion")
+
 
 
 
