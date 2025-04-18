@@ -694,8 +694,7 @@ if titre_test is not None :
             if len(filmo) >= 8 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
               st.image(searchMovies(affiche[7]), use_container_width=True)
-          if st.button('Autres choix') :
-           st.write("Il n'y a pas d'autres suggestion")
+          
 
             # quatrième acteur voisin :
           st.write(f"filmographie de {liste_noms[3]} :")
@@ -739,7 +738,8 @@ if titre_test is not None :
             if len(filmo) >= 8 :
               st.write(df_titres.loc[df_titres['tconst'] == filmo[7]]['titreVF'].iloc[0])
               st.image(searchMovies(affiche[7]), use_container_width=True) 
-
+          if st.button('Autres choix') :
+           st.write("Il n'y a pas d'autres suggestion")
 
 
 
